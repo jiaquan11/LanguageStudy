@@ -8,8 +8,12 @@ using namespace std;
 前面，这样，一轮遍历之后，最大的元素被交换到了序列尾部
 */
 void bubbleSort(int* nums, int len) {
+	//外层循环需要遍历的次数，n个元素的排序，需要n-1次遍历
+	//即从0到n-2,总共为n-1次遍历
 	for (int i = 0; i < len - 1; i++) {
+		//内层循环n-i-1次，代表第i次循环中比较的次数
 		for (int j = 0; j < len - 1 - i; j++) {
+			//如果比较的两个元素a[j]大于a[j+1],说明较大的在较小的前面
 			if (nums[j] > nums[j + 1]) {
 				int temp = nums[j];
 				nums[j] = nums[j + 1];
