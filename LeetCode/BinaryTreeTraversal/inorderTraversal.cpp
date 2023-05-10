@@ -26,14 +26,14 @@ public:
 	TreeNode* right = NULL;
 };
 
-//二叉树前序遍历
-list<int> *preorderTraversal(TreeNode* root) {
-	cout << "preorderTraversal is start" << endl;
+//二叉树中序遍历
+list<int>* inorderTraversal(TreeNode* root) {
+	cout << "inorderTraversal is start" << endl;
 	//设置一个数组用来保存二叉树前序遍历的结果
-	list<int> *preorderResult = new list<int>();
+	list<int>* inorderResult = new list<int>();
 
 	//设置一个栈，用来保存路径
-	stack <TreeNode*> *stackSave = new stack<TreeNode*>();
+	stack <TreeNode*>* stackSave = new stack<TreeNode*>();
 
 	//设置一个节点，一开始指向根节点
 	TreeNode* node = root;
@@ -62,7 +62,7 @@ list<int> *preorderTraversal(TreeNode* root) {
 		if (nodeState == nodeLeft) {
 			//把当前节点加入到二叉树前序遍历的结果数组中
 			//根 左 右
-			preorderResult->push_back(node->val);
+			//preorderResult->push_back(node->val);
 
 			//如果当前节点有左子树
 			if (node->left != NULL) {
@@ -70,15 +70,17 @@ list<int> *preorderTraversal(TreeNode* root) {
 				stackSave->push(node);
 				//开始观察当前节点的左孩子节点，代码来到了位置1
 				node = node->left;
-			} else {
+			}
+			else {
 				//如果当前节点没有左子树，切换当前节点的状态为:右  代码来到了位置1
 				nodeState = nodeRight;
 			}
-		} else if (nodeState == nodeRight) {//如果当前节点的状态是右，说明该节点的左孩子节点已经遍历，右孩子节点还没有遍历
-			//把当前节点加入到二叉树中序遍历的结果数组中
-			//inorderResult->push_back(node.val);
+		}
+		else if (nodeState == nodeRight) {//如果当前节点的状态是右，说明该节点的左孩子节点已经遍历，右孩子节点还没有遍历
+		 //把当前节点加入到二叉树中序遍历的结果数组中
+		 inorderResult->push_back(node->val);
 
-			//如果当前节点有右子树
+		 //如果当前节点有右子树
 			if (node->right != NULL) {
 				//先把当前节点加入到栈中，用来记录节点移动的路径
 				stackSave->push(node);
@@ -90,22 +92,25 @@ list<int> *preorderTraversal(TreeNode* root) {
 				nodeState = nodeLeft;
 
 				//执行完上面三行代码，代码来到了位置1
-			} else {
+			}
+			else {
 				//如果当前节点没有右子树，切换当前节点的状态为: 上  代码来到了位置1
 				nodeState = nodeUp;
 			}
-		} else if (nodeState ==  nodeUp) {//如果当前节点的状态是上，说明左右孩子节点都已经遍历，需要返回到它的父节点
-			//把当前节点加入到二叉树后序遍历的结果数组中
-			//postorderRelust->push_back(node.val);
+		}
+		else if (nodeState == nodeUp) {//如果当前节点的状态是上，说明左右孩子节点都已经遍历，需要返回到它的父节点
+		 //把当前节点加入到二叉树后序遍历的结果数组中
+		 //postorderRelust->push_back(node.val);
 
-			//需要返回到当前节点的父节点位置，通过栈顶元素来获取当前节点的父节点
-			//首先构建一个空的节点
+		 //需要返回到当前节点的父节点位置，通过栈顶元素来获取当前节点的父节点
+		 //首先构建一个空的节点
 			TreeNode* parent = NULL;
 
 			//如果栈中有元素
 			if (!stackSave->empty()) {
 				//那么，栈顶元素就是当前节点的父节点
 				parent = stackSave->top();
+				stackSave->pop();
 
 				//判断一下父节点的左节点是否为当前节点
 				//比如这颗二叉树
@@ -131,12 +136,12 @@ list<int> *preorderTraversal(TreeNode* root) {
 		}
 	}
 
-	cout << "preorderTraversal is end" << endl;
+	cout << "inorderTraversal is end" << endl;
 	//根据题目要求，返回二叉树前序，中序，后序遍历的结果
-	return preorderResult;
+	return inorderResult;
 }
 
-int main() {
+int main2() {
 	TreeNode* treeNode1 = new TreeNode(1);
 	TreeNode* treeNode2 = new TreeNode(2);
 	TreeNode* treeNode3 = new TreeNode(3);
@@ -149,12 +154,25 @@ int main() {
 	treeNode4->left = treeNode5;
 	treeNode4->right = treeNode6;
 
-	cout << "preorderTraversal is : " << endl;
-	list <int> *listResult = preorderTraversal(treeNode1);
+	cout << "inorderTraversal is : " << endl;
+	list <int>* listResult = inorderTraversal(treeNode1);
 	int listsize = listResult->size();
-	cout << "preorderTraversal listsize : " << listsize << endl;;
+	cout << "inorderTraversal listsize : " << listsize << endl;;
 	for (int i = 0; i < listsize; i++) {
-		cout << listResult->front();
+		cout << " " << listResult->front();
+		listResult->pop_front();
 	}
 	return 0;
 }
+
+
+/*
+* 比如这颗二叉树
+           1
+		  / \
+	     2   4
+	    /   / \
+       3   5   6
+中序遍历结果： 左 根 右
+3 2 1 5 4 6
+*/

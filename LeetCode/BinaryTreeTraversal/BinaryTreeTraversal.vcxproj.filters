@@ -15,7 +15,13 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="preorderTraversal.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="inorderTraversal.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="postorderTraversal.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
