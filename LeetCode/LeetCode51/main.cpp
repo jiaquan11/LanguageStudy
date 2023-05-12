@@ -13,40 +13,38 @@ N皇后问题
 //保存所有符合要求的解
 list<list<string>*>* res = new list<list<string>*>();
 
-
 //坐标(x, y)为皇后所处的位置
 //更新attack
-void checkQueenAttack(int x, int y, int **attack) {
+void checkQueenAttack(int x, int y, int **attack, int n) {
 	//对于每一个坐标(x, y)来说，都有上，下，左，右，左上，左下，右上，右下八个方向
 	//[左上]的坐标为(x-1, y-1)
 	//[上]的坐标为(x-1, y)
-	//[右上]的坐标为(x+1, y+1)
-	//[左]的坐标为(x, y+1)
-	//[右]的坐标为(x, y-1)
-	//[左下]的坐标为(x+1, y)
+	//[右上]的坐标为(x-1, y+1)
+	//[左]的坐标为(x, y-1)
+	//[右]的坐标为(x, y+1)
+	//[左下]的坐标为(x+1, y-1)
 	//[下]的坐标为(x+1, y)
 	//[右下]的坐标为(x+1, y+1)
 	//通过两个一维数组可以表示这八个方向
 	//dx表示 x 的方向
-	int dx[] = {-1, -1, 1, 0, 0, 1, 1, 1};
+	int dx[] = { -1, -1, -1, 0, 0, 1, 1, 1 };
 	//dy表示 y 的方向
-	int dy[] = {-1, 0, 1, 1, -1, -1, 0, 1};
+	int dy[] = { -1, 0, 1, -1, 1, -1, 0, 1 };
 
 	//皇后所处的坐标肯定是皇后能攻击的位置，设置为1
 	attack[x][y] = 1;
 
-	//int attackLen = sizeof(attack[0]) / sizeof(int);
 	//以坐标(x, y)为中心，去更新它八个方向的坐标
 	for (int j = 0; j < 8; j++) {
 		//由内向外的进行更新
-		for (int i = 1; i < 4; i++) {
+		for (int i = 1; i < n; i++) {//以当前坐标周围循环几圈，每一圈有8个方向
 			//新的位置的坐标行为x + i * dx[j]
 			int nx = x + i * dx[j];
 			//新的位置的坐标列为y + i * dy[j]
 			int ny = y + i * dy[j];
 
 			//如果新位置的坐标在n*n的棋盘范围内
-			if (nx >= 0 && nx < 4 && ny >= 0 && ny < 4) {
+			if ((nx >= 0) && (nx < n) && (ny >= 0) && (ny < n)) {
 				//那么这些位置就是在坐标为(x, y)的皇后的攻击范围内，更新为1
 				attack[nx][ny] = 1;
 			}
@@ -60,8 +58,7 @@ void checkQueenAttack(int x, int y, int **attack) {
 //queen用来记录皇后的位置
 //attack用来表示皇后的攻击范围
 void backTrack(int k, int n, char** queen, int** attack) {
-	//如果发现在棋盘的最后一行放置好了皇后，那么就说明找到了一组符合要求的解
-	if (k == n) {
+	if (k == n) {//如果发现在棋盘的最后一行放置好了皇后，那么就说明找到了一组符合要求的解
 		//由于 queen为二维字符数组，所以需要转换为字符串数组
 		list<string>* listStr = new list<string>();
 
@@ -93,16 +90,12 @@ void backTrack(int k, int n, char** queen, int** attack) {
 			//如果在(k, i)位置放置了皇后，那么就需要考虑再k+1行应该怎么放置其它的皇后了
 			//由于有可能在(k, i)位置放置了皇后之后，在后续的其它行会无法再放置其它的皇后
 			//那么就需要回到(k, i)的状态，考虑能不能在(k, i+1)的位置放置
-			//为了能够回到(k, i)的状态，所以需要先记录此时的attack
-			//使用一个临时的二维数组，深度拷贝attack
-			//如果不使用深度拷贝，而是直接使用int[][] temp = c
-			//会导致attack发生改变使temp也会发生改变
-			//这样也就无法保存之前的状态了
+			//为了能够回到(k, i)的状态，所以需要先记录此时的attack，使用一个临时的二维数组，深度拷贝attack
+			//如果不使用深度拷贝，而是直接使用int[][] temp = c 会导致attack发生改变使temp也会发生改变 这样也就无法保存之前的状态了
 			int** temp = new int* [n];
 			for (int i = 0; i < n; i++) {
 				temp[i] = new int[n];
 			}
-
 			//通过两个for 循环，把attack中的所有元素深度拷贝到temp
 			for (int l = 0; l < n; l++) {
 				for (int m = 0; m < n; m++) {
@@ -114,10 +107,9 @@ void backTrack(int k, int n, char** queen, int** attack) {
 			//那么(k, i)的位置queen[k][i] = 'Q'
 			queen[k][i] = 'Q';
 
-			//由于新放置了一个皇后，所以攻击范围又更多了
-			//所以需要更新attack数组
+			//由于新放置了一个皇后，所以攻击范围又更多了， 所以需要更新attack数组
 			//新放置皇后的坐标为(k, i),同样的需要更新它的八个方向
-			checkQueenAttack(k, i, attack);
+			checkQueenAttack(k, i, attack, n);
 
 			//如果在(k, i)位置放置了皇后，那么就需要考虑在k+1行应该怎么放置其它的皇后
 			//递归的调用backtrack在k+1行放置皇后
