@@ -6,13 +6,9 @@ template <typename E>
 class MyArrayList {
 public:
      MyArrayList(int capacity) {// 容量小于10一律扩充为10
-         mSize = 0;
+        mSize = 0;
         initCapacity = (capacity < DEFAULT_CAPACITY) ? DEFAULT_CAPACITY : capacity;
         data = new E[initCapacity];
-    }
-
-     MyArrayList() {
-
     }
 
 public:
@@ -91,7 +87,7 @@ public:
         }
         mSize--;
         // 删除元素后, 将最后一位设置为 null
-        data[size] = NULL;
+        data[mSize] = NULL;
         return ret;
     }
 
@@ -201,8 +197,18 @@ private:
     static const int DEFAULT_CAPACITY = 10;
 };
 
+struct Person {
+    int age = 0;
+    char* name = NULL;
+
+    Person(int age, char* name) {
+        this->age = age;
+        this->name = name;
+    }
+};
+
 int main() {
-    MyArrayList<int> list(10); // 创建一个初始容量为 10 的整型数组
+    /*MyArrayList<int> list(10); // 创建一个初始容量为 10 的整型数组
     list.add(1);
     list.add(2);
     list.add(3);
@@ -213,6 +219,24 @@ int main() {
     list.add(8);
     list.add(9);
     list.add(10);
-    cout << list.toString() << endl;
+    cout << list.toString() << endl;*/
+
+#if 1
+    MyArrayList<int>* list = new MyArrayList<int>(10);
+    list->add(100);
+    list->add(95);
+    list->add(99);
+    list->add(97);
+    list->add(200);
+    list->add(300);
+    cout << "add()添加元素: " << list->toString() << endl;
+    cout << "get()获取元素: " << list->get(0) << endl;
+    list->set(0, 666);
+    cout << "set()设置元素值: " << list->toString() << endl;
+    list->remove(0);
+    cout << "remove()删除元素: " << list->toString() << endl;
+    list->clear();
+    cout << "clear()清空数组: " << list->toString() << endl;
+#endif
 	return 0;
 }
