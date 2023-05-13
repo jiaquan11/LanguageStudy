@@ -9,8 +9,13 @@ public:
         mSize = 0;
         initCapacity = (capacity < DEFAULT_CAPACITY) ? DEFAULT_CAPACITY : capacity;
         data = new E[initCapacity];
-    }
+     }
 
+     ~MyArrayList() {
+         if (data != NULL) {
+             delete []data;
+         }
+     }
 public:
     /**
      * 1、获取数组中的元素数量
@@ -121,7 +126,9 @@ public:
    */
      int indexOf(E element) {
          for (int i = 0; i < mSize; i++) {
-             if (data[i] == element) return i;
+             if (data[i] == element) {
+                 return i;
+             }
          }
          return ELEMENT_NOT_FOUND;
      }
@@ -195,16 +202,6 @@ private:
 
     // 初始容量
     static const int DEFAULT_CAPACITY = 10;
-};
-
-struct Person {
-    int age = 0;
-    char* name = NULL;
-
-    Person(int age, char* name) {
-        this->age = age;
-        this->name = name;
-    }
 };
 
 int main() {
