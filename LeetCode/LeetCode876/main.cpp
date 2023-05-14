@@ -18,7 +18,7 @@ ListNode* middleNode(ListNode* head) {
     //如果可以移动，那么就会让快指针每次移动两步，慢指针每次移动一步
     //而快指针可以移动两步的前提就是当前节点不为空，同时下一节点也不为空
     //这样才能保证fast->next有值，fast->next->next有值
-    while (fast != nullptr && fast->next != nullptr) {
+    while (fast != NULL && fast->next != NULL) {
         //慢指针每次移动一步
         slow = slow->next;
         //快指针每次移动两步
