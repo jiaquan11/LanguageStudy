@@ -16,7 +16,7 @@ ListNode* reverseList(ListNode* head) {
     //1 head指向的结点为NULL
     //2 head指向的结点的下一个结点为NULL
     //在这两种情况下，反转之后的结果还是它自己本身
-    if (head == NULL || head->next == NULL) {
+    if ((head == NULL) || (head->next == NULL)) {
         return head;
     }
 
