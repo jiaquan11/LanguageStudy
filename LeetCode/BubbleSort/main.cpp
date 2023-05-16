@@ -23,7 +23,6 @@ void bubbleSort(int* nums, int len) {
 	}
 }
 
-
 int main() {
 	int nums[5] = { 5, 1, 3, 4, 2 };
 	int len = sizeof(nums) / sizeof(nums[0]);
